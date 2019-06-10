@@ -1,4 +1,4 @@
-from view.PageView import *
+from View.PageView import *
 import matplotlib
 
 matplotlib.use("TkAgg")

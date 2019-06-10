@@ -1,4 +1,4 @@
-from view.PageView import *
+from View.PageView import *
 from tkinter.messagebox import showerror
 
 class ModelFrame(Page):
@@ -73,6 +73,7 @@ class ModelSelection(Page):
         Page.__init__(self, *args, **kwargs)
 
         self.controller = n_controller
+        self.controller.initialize_models()
         self.controller.set_checkboxes(self)
 
 

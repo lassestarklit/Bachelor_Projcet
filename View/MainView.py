@@ -1,8 +1,8 @@
 from tkinter import *
-from view.CompareFrameView import *
-from view.LoadFrameView import *
-from view.ModelFrameView import *
-from view.VariableFrameView import *
+from View.CompareFrameView import *
+from View.LoadFrameView import *
+from View.ModelFrameView import *
+from View.VariableFrameView import *
 
 class MainView(Frame):
     filename: str

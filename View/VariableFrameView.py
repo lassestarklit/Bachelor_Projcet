@@ -1,5 +1,5 @@
-from view.PageView import *
-from view.ListPopUpView import *
+from View.PageView import *
+from View.ListPopUpView import *
 class VariableFrame(Page):
     def __init__(self, n_controller, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)

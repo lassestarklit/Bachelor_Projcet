@@ -1,10 +1,10 @@
-from model.VariableCollections import *
-from model.VariableCollections import IndependentVariables
-from view.MainView import *
-from view.ModelFrameView import *
-from view.MultiListbox import *
-from model.Models import *
-from model.Compare import *
+from Model.VariableCollections import *
+from Model.VariableCollections import IndependentVariables
+from View.MainView import *
+from View.ModelFrameView import *
+from View.MultiListbox import *
+from Model.Models import *
+from Model.Compare import *
 import pandas as pd
 from tkinter import *
 from tkinter import ttk, messagebox
@@ -45,9 +45,16 @@ class MainController:
 
 
 
-    #Need to be the one commented out when done testing
+
     separator: str
     all_attributes = pd.DataFrame()
+    all_available = pd.DataFrame()
+    independent_variables: IndependentVariables
+    dependent_variables: DependentVariables
+    comparison: Comparison
+    models = []
+    active_models = []
+
 
 
     def browse_file_btn(self):
@@ -85,6 +92,7 @@ class MainController:
                 self.all_attributes = AllAttributes(pd.read_csv(filepath, sep=separator, index_col=False),filepath)
                 self.main.update_filename(self.all_attributes.get_file_name())
                 if not is_initialized:
+
                     self.initialize_instances()
 
             except FileNotFoundError:
@@ -94,17 +102,14 @@ class MainController:
         else:
             showerror("Missing file", "Choose file first")
 
-    all_available = pd.DataFrame()
-    independent_variables: IndependentVariables
-    dependent_variables: DependentVariables
-    comparison: Comparison
+
 
     def initialize_instances(self):
         self.all_available = AllAvailable(self.all_attributes.get_table().copy())
         self.independent_variables = IndependentVariables()
         self.dependent_variables = DependentVariables()
         self.comparison = Comparison(self.all_attributes)
-        self.initialize_models()
+
 
     def initialize_models(self):
         self.KNN=KNNModel()
@@ -382,13 +387,13 @@ class MainController:
 
     ##For model selection
 
-    models=[]
-    active_models=[]
+
 
 
 
     def set_checkboxes(self,frame):
         self.vars = []
+        print(len(self.models))
         for i in range(len(self.models)):
             self.vars.append(StringVar())
             self.vars[-1].set(1)
@@ -465,7 +470,7 @@ class MainController:
     train_test_changed=False
     def fill_general(self,frame):
 
-        if not (self.models_are_initialized()) or self.variable_list_is_changed:
+        if self.variable_list_is_changed:
 
             self.generate_train_test(self.num_of_cv)
             self.set_model_scores()
@@ -912,11 +917,6 @@ class MainController:
             text="Old accuracy: {0} -- new accuracy: {1}"
                 .format(old_acc, self.active_model.get_accuracy()))
 
-    def models_are_initialized(self):
-        for model in self.active_models:
-            if not(model.is_initialized()):
-                return False
-        return True
 
     def plot_acc_err(self,graph_type):
         top = Toplevel()
