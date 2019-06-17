@@ -43,9 +43,6 @@ class MainController:
 
 
 
-
-
-
     separator: str
     all_attributes = pd.DataFrame()
     all_available = pd.DataFrame()
@@ -69,11 +66,11 @@ class MainController:
             return
 
     def load_file(self,sep,file_path):
-        #Commented out is the right. this is only for testing
+
         if file_path != "":
             is_initialized=True
             try:
-                #uncomment sep and filepath
+
                 separator = sep
                 filepath = file_path
 
