@@ -78,18 +78,20 @@ class MainController:
                 #check if a file has been loaded. If so empty is not possible as all_attributes will be an instance of a class instead of pd
                 try:
                     self.all_attributes.empty
+
                     is_initialized=False
                 except AttributeError:
                     self.dependent_variables.delete_all()
                     self.independent_variables.delete_all()
                     self.target_variable.delete_all()
+
                     self.main.variable_menu.independent_listbox.delete(0, 'end')
                     self.main.variable_menu.dependent_listbox.delete(0, 'end')
 
                 self.all_attributes = AllAttributes(pd.read_csv(filepath, sep=separator, index_col=False),filepath)
+                self.all_available = AllAvailable(self.all_attributes.get_table().copy())
                 self.main.update_filename(self.all_attributes.get_file_name())
                 if not is_initialized:
-
                     self.initialize_instances()
 
             except FileNotFoundError:
@@ -102,7 +104,7 @@ class MainController:
 
 
     def initialize_instances(self):
-        self.all_available = AllAvailable(self.all_attributes.get_table().copy())
+
         self.independent_variables = IndependentVariables()
         self.dependent_variables = DependentVariables()
         self.comparison = Comparison(self.all_attributes)
@@ -390,7 +392,6 @@ class MainController:
 
     def set_checkboxes(self,frame):
         self.vars = []
-        print(len(self.models))
         for i in range(len(self.models)):
             self.vars.append(StringVar())
             self.vars[-1].set(1)
